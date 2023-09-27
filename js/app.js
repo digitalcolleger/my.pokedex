@@ -11,6 +11,11 @@ function listarPokemons(pokemons) {
     // percorrer o array de pokemons para montar o HTML de cada um
     const listHTML = pokemons.map(function (pokemon) {
         const img = pokemon.name.toLowerCase()
+            .replace('♀', 'f')
+            .replace('♂', 'm')
+            .replace("'", '')
+            .replace(".", '')
+            .replace(" ", '')
         return `<div class="row">
                     <div class="col-lg-3">
                         <div class="pokemon panel panel-primary">
@@ -28,9 +33,9 @@ function listarPokemons(pokemons) {
                                 >
                             </div>
                             <div class="panel-footer">
-                                <div class="text-center"><a href="/grass"><span
-                                            class="label type type-grass">Grass</span></a><a href="/poison"><span
-                                            class="label type type-poison">Poison</span></a></div>
+                                <div class="text-center">
+                                    ${pokemon.species}
+                                </div>
                             </div>
                         </div>
                     </div>
