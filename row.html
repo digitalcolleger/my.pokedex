@@ -2,37 +2,67 @@
 <html ng-app="pokedex">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pokédex</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/main.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div id="lista-pokemon">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="pokemon panel panel-primary">
-                        <div class="panel-heading">
-                            <h1>Bulbasaur<small>Seed Pokémon</small><span
-                                    class="label label-primary pull-right">#101</span>
-                            </h1>
-                        </div>
-                        <div class="panel-body"><a href="/pokemon/bulbasaur"><img class="avatar center-block"
-                                    src="img/pokemons/bulbasaur.jpg"></a></div>
-                        <div class="panel-footer">
-                            <div class="text-center"><a href="/grass"><span
-                                        class="label type type-grass">Grass</span></a><a href="/poison"><span
-                                        class="label type type-poison">Poison</span></a></div>
+  <div id="root"></div>
+  <!-- This setup is not suitable for production. -->
+  <!-- Only use it in development! -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react?dev",
+      "react-dom/client": "https://esm.sh/react-dom/client?dev"
+    }
+  }
+  </script>
+  <script type="text/babel" data-type="module">
+    import React, { StrictMode } from 'react';
+    import { createRoot } from 'react-dom/client';
+    
+    const App = function MyApp() {
+      return (
+        <div className="container-fluid">
+            <div id="lista-pokemon">
+                <div className="row">
+                    <div className="col-lg-3">
+                        <div className="pokemon panel panel-primary">
+                            <div className="panel-heading">
+                                <h1>Bulbasaur<small>Seed Pokémon</small><span
+                                        className="label label-primary pull-right">#101</span>
+                                </h1>
+                            </div>
+                            <div className="panel-body"><a href="/pokemon/bulbasaur">
+                                <img className="avatar center-block"
+                                        src="img/pokemons/bulbasaur.jpg"/></a></div>
+                            <div className="panel-footer">
+                                <div className="text-center"><a href="/grass"><span
+                                            className="label type type-grass">Grass</span></a><a href="/poison"><span
+                                            className="label type type-poison">Poison</span></a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+      );
+    }
+    
+    const root = createRoot(document.getElementById('root'));
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+    </script>
 </body>
 
 </html>
