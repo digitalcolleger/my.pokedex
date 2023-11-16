@@ -25,10 +25,25 @@
   }
   </script>
   <script type="text/babel" data-type="module">
-    import React, { StrictMode } from 'react';
+    import React, { StrictMode, useEffect, useState } from 'react';
     import { createRoot } from 'react-dom/client';
-    
+
     const App = function MyApp() {
+      const [contador, atualizarContador] = useState(0);
+      const [pokemons, atualizarPokemons] = useState([]);
+
+      useEffect(() => {
+        // fazer request para buscar dados de pokemons
+        fetch('http://127.0.0.1:3000/pokemon.json')
+          .then((response) => response.json())
+          .then((data) => {
+            // atualizar variável que tem a lista de itens
+            // com base nessa variável atualizar o contador
+            atualizarContador(data.length);
+            atualizarPokemons(data);
+          });
+      }, []);
+
       return (
         <>
           <div className="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -52,12 +67,46 @@
               <div className="page-header">
                 <h1>Pokédex
                   <small className="pull-right">Exibindo 
-                    <span id="contador" className="badge">0</span> Pokémons
+                    <span className="badge">{contador}</span> Pokémons
                   </small>
                 </h1>
               </div>
             </div>
-            <div id="lista-pokemons"></div>
+            <div id="lista-pokemons">
+              {pokemons.map((pokemon) => {
+                const slug = pokemon.name.toLowerCase()
+                  .replace('♀', 'f')
+                  .replace('♂', 'm')
+                  .replace("'", '')
+                  .replace(".", '')
+                  .replace(" ", '')
+                const src = `img/pokemons/${slug}.jpg`
+                return (
+                  <div key={pokemon.id} className="col-lg-4 col-md-6">
+                      <div className="pokemon panel panel-primary">
+                          <div className="panel-heading">
+                              <h1>{pokemon.name}<small> {pokemon.species}</small>
+                              <span className="label label-primary pull-right">#{pokemon.id}</span>
+                              </h1>
+                          </div>
+                          <div className="panel-body">
+                              <img className="avatar center-block" src={src}/>
+                          </div>
+                          <div className="panel-footer">
+                              <div className="text-center">
+                                {pokemon.type.map((type) => {
+                                  const className = 'label type type-' + type.toLowerCase()
+                                  return (
+                                    <span key={type} className={className}>{type}</span>
+                                  );
+                                })}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </>
       );
